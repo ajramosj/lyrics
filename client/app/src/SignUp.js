@@ -6,7 +6,8 @@ class SignUp extends React.Component {
     super(props)
     this.state = {
       username: "",
-      password: ""
+      password: "",
+      isValid: false
     }
   }
 
@@ -22,10 +23,10 @@ class SignUp extends React.Component {
           </div>
           <div className="form-group">
             <label htmlFor="password">Password</label>
-            <input type="password" className="form-control" name="password" onChange={this.handleInputChange} />
+            <input type="password" className="form-control" name="password" onChange={this.handleInputChange} id="password" />
             <small className="form-text text-muted">Your password must contain at least 8 characters, 1 capital letter and 1 number.</small>
           </div>
-          <button method="post" className="btn btn-primary">Sign Up</button>
+          <button method="post" className="btn btn-primary" disabled={!this.state.isValid}>Sign Up</button>
         </form>
         <br />
         <ul className="nav">
@@ -39,6 +40,12 @@ class SignUp extends React.Component {
     const { value, name } = event.target
     this.setState({
       [name]: value
+    }, () => {
+      if (this.validatePassword(this.state.password).valid) {
+        document.getElementById('password').style.color = 'green'
+      } else {
+        document.getElementById('password').style.color = 'red'
+      }
     })
   }
 
@@ -64,6 +71,30 @@ class SignUp extends React.Component {
       .catch(err => {
         alert("Sorry, we were unable to register you in the system. Try again...")
       })
+  }
+
+  validatePassword(password) {
+    var lowercase_regexp = /^(?=.*[a-z]).*$/
+    var uppercase_regexp = /^(?=.*[A-Z]).*$/
+    var number_regexp = /^(?=.*[0-9]).*$/
+    var length_regexp = /^(?=.{8,16}$).*$/
+
+    var results = {
+      lowercase: false,
+      uppercase: false,
+      number: false,
+      length: false,
+      valid: false
+    }
+
+    results.lowercase = password.match(lowercase_regexp) !== null
+    results.uppercase = password.match(uppercase_regexp) !== null
+    results.number = password.match(number_regexp) !== null
+    results.length = password.match(length_regexp) !== null
+
+    results.valid = results.lowercase && results.uppercase && results.number && results.length
+
+    return results
   }
 }
 
