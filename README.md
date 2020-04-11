@@ -16,16 +16,18 @@ npm init --yes
 npm install dotenv
 npm install express
 npm install cookie-parser
+npm install @mysql/xdevapi
+npm install bcryptjs
 ```
 
-All data is stored in a MySQL database. Use the statements from the `lyrics.sql` file (`server` folder) with the help of a MySQL client to create the appropiate tables and load the sample data:
+All data is stored in a MySQL database and passwords are hashed by using `bcryptjs`. Use the statements from the `lyrics.sql` file (`server` folder) with the help of a MySQL client to create the appropiate tables and load the sample data:
 
 * Users
 
 | Column | Properties |
 | ------ | ---------- |
 | username | VARCHAR(30) NOT NULL |
-| password | VARCHAR(16) NOT NULL |
+| password | VARCHAR(60) NOT NULL |
 | user_id | INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY |
 
 * Songs
@@ -54,8 +56,8 @@ cd app
 npm install
 npm run build
 mv build ../../server
-npm install
 cd ../../server
+npm install
 npm start
 ```
 

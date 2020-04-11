@@ -9,7 +9,7 @@ SELECT DATABASE();
 # Create tables
 CREATE TABLE users(
     username VARCHAR(30) NOT NULL,
-    password VARCHAR(16) NOT NULL,
+    password VARCHAR(60) NOT NULL,
     user_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY
 );
 
@@ -21,9 +21,9 @@ CREATE TABLE songs(
     song_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY
 );
 
-# Insert sample data
-INSERT INTO users VALUES('username1','P@ssw0rd',NULL);
-INSERT INTO users VALUES('username2','P@ssw0rd',NULL);
+# Insert sample data (passwords are all equal to 'password')
+INSERT INTO users VALUES('username1','$2a$10$w8u3v3nFlAoYpW7oSrcQguGLvDXajklAE1PFzoInIAYsJeeU/WCPW',NULL);
+INSERT INTO users VALUES('username2','$2a$10$w8u3v3nFlAoYpW7oSrcQguGLvDXajklAE1PFzoInIAYsJeeU/WCPW',NULL);
 INSERT INTO songs VALUES('Title 1','Author 1','{"lyrics": ["Line 1", "Line 2", "Line 3"], "timeStamps": [1000, 2000, 3000]}',1,NULL);
 INSERT INTO songs VALUES('Title 2','Author 2','{"lyrics": ["Line 4", "Line 5"], "timeStamps": [4000, 5000]}',1,NULL);
 INSERT INTO songs VALUES('Title 3','Author 3','{"lyrics": ["Line 6"], "timeStamps": [6000] }',1,NULL);

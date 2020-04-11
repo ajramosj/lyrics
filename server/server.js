@@ -3,6 +3,7 @@ const path = require('path')
 const express = require('express')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
+const bcrypt = require('bcryptjs')
 require('dotenv').config({ path: path.join(__dirname, '.env') })
 
 // Connect to database
@@ -35,11 +36,14 @@ app.post('/api/authenticate', (req, res) => {
   const { username, password } = req.body;
 
   var authenticatedUser = {};
-  session.sql("SELECT user_id, username FROM users WHERE username = ? AND password = ?")
-    .bind(username, password)
+  session.sql("SELECT user_id, username, password FROM users WHERE username = ?")
+    .bind(username)
     .execute()
     .then(users => {
       if (user = users.fetchOne()) {
+        if (!bcrypt.compareSync(password, user[2])) {
+          return res.sendStatus(404)
+        }
         authenticatedUser.username = user[1]
         authenticatedUser.songs = []
         session.sql("SELECT title, author, song_lines FROM songs WHERE user_id = ?")
@@ -73,7 +77,7 @@ app.post('/api/register', (req, res) => {
     .then((usersCount) => {
       if (usersCount.fetchOne() == 0) {
         session.sql("INSERT INTO users VALUES(?,?,NULL)")
-          .bind(username, password)
+          .bind(username, bcrypt.hashSync(password))
           .execute()
           .then(() => {
             return res.sendStatus(200)
