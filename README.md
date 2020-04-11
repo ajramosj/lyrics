@@ -20,7 +20,7 @@ npm install @mysql/xdevapi
 npm install bcryptjs
 ```
 
-All data is stored in a MySQL database and passwords are hashed by using `bcryptjs`. Use the statements from the `lyrics.sql` file (`server` folder) with the help of a MySQL client to create the appropiate tables and load the sample data:
+All data is stored in a MySQL database and passwords are hashed by using `bcryptjs`. Use the statements from the `lyrics.sql` file (`server` folder) with the help of a MySQL client to create the appropriate tables and load the sample data:
 
 * Users
 
