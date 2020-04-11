@@ -43,8 +43,10 @@ class SignUp extends React.Component {
     }, () => {
       if (this.validatePassword(this.state.password).valid) {
         document.getElementById('password').style.color = 'green'
+        this.setState({ isValid: true })
       } else {
         document.getElementById('password').style.color = 'red'
+        this.setState({ isValid: false })
       }
     })
   }
